@@ -1,0 +1,61 @@
+.main{
+    background-color: rgb(255, 255, 255);
+    width: 700px;
+    height: 400px;
+    border-style: solid;
+    border-width: 15px 7px;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around;
+}
+.layout{
+    display: flex;
+}
+
+*{
+    height: 100%;
+    width: 100%;
+}
+
+#Title{
+    text-align: center;
+    font-size:20px;
+    font-family: sans-serif;
+    padding-top: 10px;
+
+}
+
+#Form{
+    
+    font-size:medium;
+    font-family: sans-serif;
+    display: inline-table;
+    margin-left:50px;
+    margin-bottom: 20px;
+}
+
+input[type=text], input[type=password], input[type=email]{
+    width: 50%;
+    padding: 12px 5px;
+    margin: 13px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=submit]{
+    width: 200px;
+    height: 40px;
+    margin-left: 160px;
+    cursor: pointer;
+}
+
+#Registration{
+    margin-top: 20px;
+}

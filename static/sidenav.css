@@ -1,0 +1,76 @@
+.sidebar{
+  display: flex;
+  background-color: hsl(223, 15%, 59%);
+  height: 100%;
+  width: 230px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  border: 4px outset rgb(226, 13, 13);
+  order: 1;
+}
+
+.top-page{
+  height: 170px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 4px outset black;
+}
+
+.login {
+  width: 100%;
+}
+
+#button{
+  cursor: pointer;
+  border: 3px;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 0px;
+  width: 100%;
+  height: 50px;
+  padding: 10px 15px;
+  background-color: hsl(221, 11%, 67%);
+  transition: 0.4s;
+  text-align: center;
+  margin-left: 0px;
+}
+
+
+
+
+.middle-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  
+  height: 470px;
+  border-color: black;
+  border-top: 10px;
+  width: 100%;
+  border-bottom: 4px outset black;
+}
+.Sell{
+  height: 150px;
+  width: 100%;
+  border-top: 10px;
+  border-color: black;
+}
+.Buy{
+  height: 100px;
+  width: 100%;
+  border-top: 10px;
+  border-color: black;
+  margin-top: auto;
+}
+
+#title{
+  text-align: center;
+}
+
+
+.bottow-page{
+  height: 290px;
+  width: 100%;
+}

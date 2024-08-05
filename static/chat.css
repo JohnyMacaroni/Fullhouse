@@ -1,0 +1,29 @@
+.chat{
+    /*position: fixed;*/
+    background-color: rgb(194, 194, 194);
+    width: 340px;
+    height: 100%;
+    border: 5px outset red;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    order: 3;
+    overflow: hidden;
+}
+
+.container-fluid{
+    
+}
+
+.container-fluid-music{
+
+    height: 100%;
+}
+
+.message{
+    display: flex;
+    flex-direction: row;
+    margin-left: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
