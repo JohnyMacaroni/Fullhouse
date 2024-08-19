@@ -23,6 +23,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("market/",include('Market.urls')),
-
-] 
+    path('accounts/', include('django.contrib.auth.urls')),  # For login, logout, etc.
+    path('', include('market.urls')),  # Ensure 'market' is your app name
+]

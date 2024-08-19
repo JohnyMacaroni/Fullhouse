@@ -1,0 +1,334 @@
+/* General Body Styling */
+body {
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0e17;
+    color: #ffffff;
+}
+
+/* Layout Styling */
+.layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 20%;
+    background-color: #0f1626;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.sidebar .title,
+.sidebar .section-title {
+    color: #00f9ff;
+    margin-bottom: 20px;
+}
+
+.sidebar .title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sidebar .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Info Sections */
+.player-info, .global-info {
+    margin-bottom: 20px;
+}
+
+.global-info {
+    background-color: #161d30;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.global-info p {
+    font-size: 0.9rem;
+    color: #c0c0c0;
+    margin: 5px 0;
+}
+
+/* Content Sections */
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Button Group Styling */
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    background-color: #00f9ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0;
+}
+
+.button-group button:hover,
+.button-group button.active {
+    background-color: #00c8d9;
+}
+
+.button-group button:not(:last-child) {
+    border-right: 2px solid #333;
+}
+
+/* Transaction, Send Money, and QR Code Boxes */
+.transaction-box, .send-money-box, .qr-code-box {
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #1b1f2f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: calc(100% - 40px);
+}
+
+.transaction-box h3, .send-money-box h3, .qr-code-box h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #00f9ff;
+    text-align: center;
+}
+
+.transaction-box .form-group,
+.send-money-box button {
+    margin-bottom: 10px;
+}
+
+.send-money-box, .qr-code-box {
+    text-align: center;
+}
+
+.qr-code-box img {
+    max-width: 200px;
+    margin: 10px auto;
+}
+
+.transaction-box button,
+.send-money-box button {
+    background-color: #00f9ff;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.transaction-box button:hover,
+.send-money-box button:hover {
+    background-color: #00c8d9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .send-money-box button,
+    .transaction-box button,
+    .button-group button {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+}
+
+/* Settings and Auth Buttons */
+.lower-section {
+    margin-top: auto;
+}
+
+.settings-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #ff007a;
+}
+
+.settings ul {
+    list-style: none;
+    padding: 0;
+}
+
+.settings ul li {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #c0c0c0;
+}
+
+.auth-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-buttons button {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ff007a;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.auth-buttons .register-btn {
+    background-color: #00f9ff;
+}
+
+.auth-buttons button:hover {
+    opacity: 0.8;
+}
+
+
+
+/* Main Content Styling */
+.main {
+    width: 60%;
+    padding: 20px;
+    background-color: #1b1f2f;
+    overflow-y: auto;
+}
+
+.main .content {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #c0c0c0;
+}
+
+
+
+
+
+
+.chat-container {
+    height: 100vh; /* Full height of the viewport */
+    display: flex;
+    flex-direction: column;
+    background-color: #1b1f2f;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.chat-history {
+    flex: 1; /* Take up remaining space */
+    overflow-y: auto; /* Scroll when messages overflow */
+    display: flex;
+    flex-direction: column-reverse; /* Start messages from the bottom */
+    margin-bottom: 10px;
+    background-color: #f7f7f7; /* Optional: background color */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: shadow for better appearance */
+}
+
+#chat-messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+#chat-form {
+    display: flex;
+    gap: 10px;
+    background-color: #1b1f2f;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: shadow for better appearance */
+}
+
+#chat-input {
+    flex: 1; /* Take up the available space */
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #0a0e17;
+    color: #ffffff;
+}
+
+button {
+    background-color: #00f9ff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00c8d9;
+}
+
+
+/* Transaction History */
+.transaction-history {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1b1f2f;
+    border-radius: 8px;
+    width: 80%;
+}
+
+.transaction-history h2 {
+    color: #00f9ff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transaction-table th, .transaction-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    color: #ffffff;
+}
+
+.transaction-table th {
+    background-color: #0f1626;
+}
+
+.transaction-table tr:nth-child(even) {
+    background-color: #1b1f2f;
+}

@@ -1,38 +1,54 @@
-
-from statistics import mode
 from django.db import models
-from django.contrib.auth import get_user_model
-from django.utils import timezone
-from pkg_resources import require
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
 
-class Info(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    Money = models.IntegerField(default=0)
-    Coins = models.IntegerField(default=0)
-    Profit = models.IntegerField(default=0)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    id_user = models.IntegerField(default=0)
+    coins = models.IntegerField(default=0)
+    money = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    profit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    btc = models.DecimalField(max_digits=10, decimal_places=7, default=0.00)
+    
+    def __str__(self):
+        return self.user.username
 
 
-
-class transaction(models.Model):
+class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_username = models.CharField(max_length=64,null=True,blank=True)
-    Coins = models.PositiveIntegerField (default=0)
-    Price = models.PositiveIntegerField (default=0)
-    pp = models.PositiveIntegerField (default=0, null=True,blank=True)
-    active = models.BooleanField(default= True )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-'''
-class Message(models.Model):
-    sender = models.CharField(max_length=64)
-    message=models.CharField(max_length=64)
-'''
- 
- 
-class Global_Info(models.Model):
-    moneyin = models.IntegerField(default=0)
-    Totalcoins = models.IntegerField(default=0)
-    Totalprofit = models.IntegerField(default=0)
-    Players_online = models.IntegerField(default=0) 
-    currency_value = models.IntegerField(default=0)
+    def __str__(self):
+        return f"Transaction by {self.user.username} for {self.amount} at {self.price}"
+    
+
+class MarketInfo(models.Model):
+    price = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    amount_transactions = models.PositiveIntegerField(default=0)
+    amount_players_online = models.PositiveIntegerField(default=0)
+    amount_players_total = models.PositiveIntegerField(default=0)
+    total_coins = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    total_money = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    total_profit = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    btc_price = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Market Info as of {self.updated_at}"
+    
+
+class UserWallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    wallet_address = models.CharField(max_length=255)
+    private_key = models.CharField(max_length=512)
+    name = models.CharField(max_length=512,default=wallet_address)
+
+    def __str__(self):
+        return f"{self.user.username}'s Wallet"
+    
+
+class ChatMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

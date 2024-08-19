@@ -31,13 +31,15 @@ ALLOWED_HOSTS = ['127.0.0.1','stronghouse.herokuapp.com/']
 # Application definition
 
 INSTALLED_APPS = [
-    'Market',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'market',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Fullhouse.wsgi.application'
 
+ASGI_APPLICATION = 'Fullhouse.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -148,4 +151,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# settings.py
+LOGIN_URL = '/accounts/login/'
 

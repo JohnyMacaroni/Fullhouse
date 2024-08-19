@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper Game Platform</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="title">
+                Hyper - Pump and Dump
+            </div>
+            
+            {% if user.is_authenticated %}
+            <div class="player-info">
+                <div class="user-info">
+                    <h2 class="section-title">Player Info</h2>
+                    <p id="user.username">User: </p>
+                    <p id="user.profile.coins">Coins: </p>
+                    <p id="user.profile.money">Money: </p>
+                    <p id ="user.profile.btc">Btc: </p>
+                    <p id ="user.profile.profit">Profit: </p>
+                </div>
+            </div>
+            
+            <div class="transaction-section">
+                <h3>Manage</h3>
+                <div class="button-group">
+                    <button onclick="showSection('qr-code')">Add </button>
+                    <button onclick="showSection('buy-coins')">Coins</button>
+                    <button onclick="showSection('create-transaction')">Transaction</button>
+                    <button onclick="showSection('pull-funds')">Pull </button>
+                </div>
+
+
+                <div id="create-transaction" class="content-section">
+                    <h4>Create a Transaction</h4>
+                    <form method="post" action="{% url 'create_transaction' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="amount">Amount:</label>
+                            <input type="text" id="amount" name="amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price:</label>
+                            <input type="text" id="price" name="price" required>
+                        </div>
+                        <button type="submit">Submit Transaction</button>
+                    </form>
+                </div>
+
+                <div class="content-section" id="buy-coins" class="content-section">
+                    <h4>Buy Coins</h4>
+                    <form id="buy-coins-form" method="post" action="{% url 'create_coin' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="amount">Amount to Buy:</label>
+                            <input type="number" id="amount" name="amount" min="0.0001" step="0.0001" required>
+                        </div>
+                        <button type="submit">Buy Coins</button>
+                    </form>
+                </div>
+
+                <div id="qr-code" class="content-section">
+                    <h4>Fund BTC Wallet</h4>
+                    <img id="qr-code-img" src="{{ qr_code }}" alt="QR Code" style="max-width: 100%; height: auto;">
+                </div>
+            
+                <div id="pull-funds" class="content-section">
+                    <h4>Pull BTC Funds</h4>
+                    <form id="pull-funds-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="wallet">Wallet:</label>
+                            <input type="text" id="wallet" name="wallet" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount (BTC):</label>
+                            <input type="number" id="amount" name="amount" min="1" step="any" required>
+                        </div>
+                        <button type="submit">Pull Funds</button>
+                    </form>
+                </div>
+
+
+            </div> 
+
+
+
+            <div class="global-info">
+                <h3 class="section-title">Global Info</h3>
+                <p>Players Online: {{ global_info.amount_players_online }}</p>
+                <p>Current Coin Price: {{ global_info.price }}</p>
+            </div>
+            
+
+            
+            <!-- Move Settings Section Near Bottom -->
+            <div class="lower-section">
+                <!-- Settings Section -->
+                <div class="settings">
+                    <div class="settings-title">Settings</div>
+                    <ul>
+                        <li>Option 1</li>
+                        <li>Option 2</li>
+                        <li>Option 3</li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Login/Register Buttons -->
+            <div class="auth-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="btn logout-btn">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn login-btn">Login</a>
+                    <a href="{% url 'register' %}" class="btn register-btn">Register</a>
+                {% endif %}
+            </div>
+            
+        
+        </div>
+        
+
+
+
+        <div class="transaction-history">
+            <h2>Transaction History</h2>
+            
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <!-- AJAX will populate this section -->
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="chat-container">
+            <h2>Chat</h2>
+            <div class="chat-history">
+                <div id="chat-messages">
+                    <div class="username">admin : ss</div>
+                    <div class="username">admin : tass</div>
+                    <div class="username">admin : kkkk</div>
+                    <div class="username">admin : tasss</div>
+                    <div class="username">admin : tasss</div>
+                    <div class="username">admin : da</div>
+                </div>
+            </div>
+            <form id="chat-form" method="post" action="/api/chat/">
+                <input type="text" id="chat-input" name="chat-input" placeholder="Type your message..." required="">
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+<script>
+
+
+// Function to hide all sections except the first
+function hideAllExceptFirst() {
+    var sections = document.querySelectorAll('.content-section');
+    sections.forEach(function(section, index) {
+        if (index !== 0) {
+            section.style.display = 'none';
+        }else{
+            section.style.display = 'block';
+        }
+    });
+}
+
+// Function to show the clicked section and hide all others
+function showSection(sectionId) {
+    var sections = document.querySelectorAll('.content-section');
+    sections.forEach(function(section) {
+        section.style.display = 'none';
+    });
+    
+    var sectionToShow = document.getElementById(sectionId);
+    if (sectionToShow) {
+        sectionToShow.style.display = 'block';
+    }
+}
+
+// Initialize: Hide all sections except the first one
+document.addEventListener('DOMContentLoaded', function() {
+    hideAllExceptFirst();
+});
+
+
+
+</script>
+
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    // Function to handle the transaction purchase
+    function buyTransaction(transactionId) {
+        if (confirm('Are you sure you want to buy this transaction?')) {
+            console.log(transactionId)
+            $.ajax({
+                url: '/api/buy-transaction/', // Update with your actual URL
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ id: transactionId }), // Send the transaction ID
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken') // Ensure CSRF token is included
+                }   ,
+                success: function(response) {
+                    alert('Transaction bought successfully!');
+                    fetchTransactions(); // Refresh the transaction list after buying
+                },
+                error: function(error) {
+                    console.error('Error buying transaction:', error);
+                    alert('Failed to buy the transaction. Please try again.');
+                }
+            });
+        }
+    }
+
+</script>
+
+
+
+<script>
+    function fetchTransactions() {
+        $.ajax({
+            url: '/api/get_ajax_info/',
+            method: 'GET',
+            success: function(data) {
+                const tableBody = $('.transaction-table tbody');
+                tableBody.empty(); // Clear previous rows
+
+                // Access the transactions array directly
+                const transactions = data.transactions;
+
+                if (Array.isArray(transactions) && transactions.length > 0) {
+                    transactions.forEach(function(transaction) {
+                        const row = $('<tr>').attr('data-id', transaction.id);
+
+                        // Append <td> elements to the row
+                        row.append(
+                            $('<td>').text(new Date(transaction.created_at).toLocaleString()),
+                            $('<td>').text(transaction.user__username),
+                            $('<td>').text(transaction.amount),
+                            $('<td>').text(transaction.price),
+                            $('<td>').append(
+                                $('<button>')
+                                    .text('Buy')
+                                    .addClass('buy-button')
+                                    .attr('data-id', transaction.id)
+                                    .on('click', function() {
+                                        buyTransaction(transaction.id);
+                                    })
+                            )
+                        );
+                        tableBody.append(row);
+                })};
+
+                const tableChatBody = $('#chat-messages');
+                tableChatBody.empty(); // Clear previous rows
+
+                // Access the transactions array directly
+                const messages = data.messages;
+
+                if (Array.isArray(messages) && messages.length > 0) {
+                    messages.forEach(function(message) {
+                    const messageElement = $(tableChatBody).append(
+                        $('<div>').addClass('username').text(message.user__username + " : " + message.message)
+                    );
+                    tableChatBody.append(messageElement);
+                    });
+                };
+
+                const UserBody = $(".user-info");
+
+                UserBody.empty(); // Clear previous rows
+
+                // Access the transactions array directly
+                const user_info = data.user_info;
+
+                if ( user_info) {
+                    
+                    UserBody.append(`
+                            <h2 class='section-title'>Player Info</h2>
+                            <p id='user.username'>User: ${data.user_info.user__username}</p>
+                            <p id='user.profile.coins'>Coins: ${data.user_info.coins}</p>
+                            <p id='user.profile.money'>Money: ${data.user_info.money}</p>
+                            <p id='user.profile.btc'>Btc: ${data.user_info.btc}</p>
+                            <p id='user.profile.profit'>Profit: ${data.user_info.profit}</p>`);
+                
+                };
+                console.log(UserBody);
+            },
+            
+            error: function(error) {
+                console.error('Error fetching transactions:', error);
+            }
+        });
+    
+    }
+
+    // Fetch transactions every 10 seconds
+    setInterval(fetchTransactions, 10000);
+
+    // Initial fetch
+    fetchTransactions();
+</script>
+
+
+
+
+
+
+</html>
